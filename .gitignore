@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Clone skill scratch snapshots
+.clone/
+/dist/
+.vinext/
+.wrangler/

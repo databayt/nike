@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nike-ecommerce",
+  "compatibility_date": "2026-09-21",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": "vinext/server/fetch-handler",
+  "assets": {
+    "directory": "dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  // ni.databayt.org — the Project card on databayt.org. custom_domain lets Cloudflare
+  // own the hostname's DNS record (it was a dead CNAME to Vercel).
+  "routes": [
+    { "pattern": "ni.databayt.org", "custom_domain": true }
+  ]
+}
