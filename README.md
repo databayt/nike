@@ -115,7 +115,7 @@ DATABASE_URL="postgresql://username:password@host:port/database"
 
 # Better Auth
 BETTER_AUTH_SECRET="your-secret-key-here"
-BETTER_AUTH_URL="http://localhost:3000"
+BETTER_AUTH_URL="http://localhost:3002"
 
 # GitHub OAuth (optional)
 GITHUB_CLIENT_ID=""
@@ -134,7 +134,7 @@ Replace the placeholder values with your credentials. You can get these by signi
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
+Open [http://localhost:3002](http://localhost:3002) in your browser to view the project.
 
 ## 📁 Project Structure
 

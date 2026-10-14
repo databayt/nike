@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Languages } from 'lucide-react';
 import { useSwitchLocaleHref } from '@/components/internationalization/use-locale';
-import { type Locale } from '@/components/internationalization/config';
+import { type Locale, localeConfig } from '@/components/internationalization/config';
 import { usePathname } from 'next/navigation';
 
 export default function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
@@ -15,16 +14,16 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: Loc
     return null;
   }
 
-  // Toggle between en and ar
+  // Toggle between en and ar — shown as a text link (e.g. "العربية" / "English")
   const targetLocale: Locale = currentLocale === 'en' ? 'ar' : 'en';
 
   return (
     <Link
       href={getSwitchLocaleHref(targetLocale)}
-      className="flex items-center justify-center p-2 rounded-lg hover:bg-light-200 text-dark-700 transition-colors"
-      aria-label={`Switch to ${targetLocale === 'en' ? 'English' : 'Arabic'}`}
+      className="transition-colors hover:text-dark-700"
+      aria-label={`Switch to ${localeConfig[targetLocale].name}`}
     >
-      <Languages className="h-5 w-5" />
+      {localeConfig[targetLocale].nativeName}
     </Link>
   );
 }

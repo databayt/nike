@@ -17,7 +17,9 @@
   --color-red: #d33918;
   --color-orange: #d37918;
 
-  /* Font family */
+  /* Font family — Inter approximates Nike's Helvetica Now; Rubik covers Arabic.
+     Mapped to --font-sans so Tailwind's base type + every `font-sans` use it. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-jost: "Jost", sans-serif;
 
   /* Heading sizes */
@@ -56,6 +58,86 @@
   --text-footnote: 12px;
   --text-footnote--line-height: 18px;
   --text-footnote--font-weight: 400;
+}
+
+/* Apply the brand sans to the document; Arabic (RTL) switches to Rubik. */
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+:root[dir="rtl"] body {
+  font-family: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Hero carousel autoplay progress ring (r=22 → circumference ≈ 138.23) */
+@keyframes hero-progress {
+  from {
+    stroke-dashoffset: 138.23;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.hero-progress-ring {
+  animation-name: hero-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* "Nike Soccer" glitch — chromatic split + clip-slice jitter, mirroring nike's
+   `.glitch-effect`: it auto-plays on load and repeats indefinitely with a quiet
+   gap between bursts (NOT hover-triggered). The base text stays visible; two
+   colored copies flicker over it during each ~0.6s burst, then idle (opacity 0)
+   for the rest of the 4s cycle. */
+.nav-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-glitch::before,
+.nav-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.nav-glitch::before {
+  color: #ff4e4a;
+  animation: nav-glitch-a 6s steps(2, end) infinite;
+}
+
+.nav-glitch::after {
+  color: #00e5ff;
+  animation: nav-glitch-b 6s steps(2, end) infinite;
+}
+
+/* Each 6s cycle: a ~0.9s chromatic-split burst (0–15%), then a ~5.1s quiet gap. */
+@keyframes nav-glitch-a {
+  0% { opacity: 0.85; transform: translate(0, 0); clip-path: inset(0 0 82% 0); }
+  3% { opacity: 0.85; transform: translate(-2px, -1px); clip-path: inset(28% 0 40% 0); }
+  6% { opacity: 0.85; transform: translate(2px, 1px); clip-path: inset(58% 0 12% 0); }
+  9% { opacity: 0.85; transform: translate(-1px, 1px); clip-path: inset(12% 0 62% 0); }
+  12% { opacity: 0.85; transform: translate(1px, 0); clip-path: inset(42% 0 30% 0); }
+  15%, 100% { opacity: 0; transform: translate(0, 0); }
+}
+
+@keyframes nav-glitch-b {
+  0% { opacity: 0.85; transform: translate(0, 0); clip-path: inset(62% 0 12% 0); }
+  3% { opacity: 0.85; transform: translate(2px, 1px); clip-path: inset(12% 0 68% 0); }
+  6% { opacity: 0.85; transform: translate(-2px, -1px); clip-path: inset(42% 0 30% 0); }
+  9% { opacity: 0.85; transform: translate(1px, -1px); clip-path: inset(72% 0 6% 0); }
+  12% { opacity: 0.85; transform: translate(-1px, 0); clip-path: inset(22% 0 52% 0); }
+  15%, 100% { opacity: 0; transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-glitch::before,
+  .nav-glitch::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* Font utilities */

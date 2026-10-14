@@ -38,6 +38,104 @@
     "menu": "Menu",
     "close": "Close"
   },
+  "header": {
+    "men": "Men",
+    "women": "Women",
+    "kids": "Kids",
+    "jordan": "Jordan",
+    "nikeskims": "NikeSKIMS",
+    "sale": "Sale",
+    "soccer": "Nike Soccer",
+    "findAStore": "Find a Store",
+    "help": "Help",
+    "joinUs": "Join Us",
+    "signIn": "Sign In",
+    "nikeHome": "Nike Home Page",
+    "search": "Search",
+    "searchPlaceholder": "Search",
+    "popularSearch": "Popular Search Terms",
+    "askNikeAI": "Ask NikeAI",
+    "favorites": "Favorites",
+    "bag": "Bag",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "hero": {
+    "carousel": "Featured carousel",
+    "pagination": "Carousel pagination",
+    "goToSlide": "Go to slide",
+    "previous": "Previous",
+    "next": "Next",
+    "pause": "Pause",
+    "play": "Play"
+  },
+  "filmstrip": {
+    "label": "Featured collections",
+    "soccerLifestyle": "Shop Soccer Lifestyle",
+    "cleats": "Shop Cleats",
+    "repTeam": "Rep Your Team"
+  },
+  "men": {
+    "meta": {
+      "title": "Men's Shoes, Clothing & Accessories. Nike.com",
+      "description": "Shop Nike men's shoes, clothing and accessories. Find the latest styles built for every sport and every day."
+    },
+    "nav": {
+      "men": "Men",
+      "shopAll": "Shop All",
+      "shoes": "Shoes",
+      "clothing": "Clothing",
+      "accessories": "Accessories"
+    },
+    "cta": {
+      "shop": "Shop",
+      "shopAll": "Shop All",
+      "watch": "Watch",
+      "pause": "Pause",
+      "play": "Play"
+    },
+    "sections": {
+      "trendingNow": "Trending Now",
+      "featuredFootwear": "Featured Footwear",
+      "latestInClothing": "Latest in Clothing",
+      "shopBySport": "Shop by Sport",
+      "shopByCategory": "Shop By Category"
+    },
+    "promo": {
+      "newArrivals": "New Arrivals",
+      "bestSellers": "Best Sellers",
+      "latestDrops": "Latest Drops"
+    },
+    "sport": {
+      "soccer": "Soccer",
+      "basketball": "Basketball",
+      "running": "Running",
+      "baseball": "Baseball",
+      "golf": "Golf",
+      "swim": "Swim",
+      "training": "Training"
+    },
+    "category": {
+      "shoes": "Shoes",
+      "clothing": "Clothing",
+      "accessories": "Accessories"
+    },
+    "footerNav": {
+      "mensShoes": "Men's Shoes",
+      "mensClothing": "Men's Clothing",
+      "mensGear": "Men's Gear",
+      "featured": "Featured"
+    },
+    "a11y": {
+      "promo": "New and featured",
+      "footerNav": "Men's categories",
+      "heroCarousel": "Featured carousel",
+      "pagination": "Carousel pagination",
+      "goToSlide": "Go to slide",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
   "auth": {
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -186,30 +284,36 @@
     "copyright": "© 2025 Nike, Inc. All Rights Reserved"
   },
   "home": {
-    "welcome": "Welcome to Nike Store",
-    "heroTitle": "Just Do It",
-    "heroSubtitle": "Find Your Perfect Fit",
-    "shopNow": "Shop Now",
-    "newArrivals": "New Arrivals",
-    "trending": "Trending Now",
-    "featured": "Featured Products",
-    "categories": "Shop by Category",
-    "running": "Running",
-    "lifestyle": "Lifestyle",
-    "training": "Training",
-    "basketball": "Basketball",
-    "football": "Football",
-    "heroTagline": "Bold & Sporty",
-    "heroMainTitle": "Style That Moves With You.",
-    "heroDescription": "Not just style. Not just comfort. Footwear that effortlessly moves with your every step.",
-    "findYourShoe": "Find Your Shoe",
-    "reactPresto": "REACT PRESTO",
-    "reactPrestoDesc": "With React foam for the most comfortable Presto ever.",
-    "summerMustHaves": "Summer Must-Haves: Air Max Dia",
-    "airJordan11": "Air Jordan 11 Retro Low LE",
-    "nikeReact": "NIKE REACT",
-    "prestoByYou": "PRESTO BY YOU",
-    "reactDescription": "Take advantage of brand new, proprietary cushioning technology with a fresh pair of Nike react shoes."
+    "sections": {
+      "trendingNow": "Trending Now",
+      "bestSellers": "Best Sellers",
+      "chooseYourTeam": "Choose Your Team",
+      "theEssentials": "The Essentials"
+    },
+    "cta": {
+      "shop": "Shop",
+      "shopAll": "Shop All"
+    },
+    "essentials": {
+      "mensShoes": "Men's Shoes",
+      "womensShoes": "Women's Shoes",
+      "mensClothing": "Men's Clothing",
+      "womensClothing": "Women's Clothing",
+      "kidsShoes": "Kids' Shoes",
+      "airForce1": "Air Force 1",
+      "jordan": "Jordan",
+      "running": "Running",
+      "basketball": "Basketball",
+      "sportswear": "Sportswear"
+    },
+    "chooseTeam": {
+      "eyebrow": "Federations & Clubs",
+      "seeAll": "See All",
+      "seeLess": "See Less"
+    },
+    "a11y": {
+      "spotlight": "Featured spotlight"
+    }
   },
   "account": {
     "myAccount": "My Account",

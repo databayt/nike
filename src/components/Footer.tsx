@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Linkedin, Facebook, MessageCircle } from "lucide-react";
 import { type Dictionary } from "@/components/internationalization/dictionaries";
 import { type Locale } from "@/components/internationalization/config";
 
@@ -9,110 +7,108 @@ interface FooterProps {
   lang: Locale;
 }
 
-export default function Footer({ dictionary, lang }: FooterProps) {
+/**
+ * nike.com's global footer: a light four-column link grid (Resources / Help /
+ * Company / Promotions & Discounts), a country/region selector + copyright on
+ * the start side of the legal bar, and the legal links on the end side. Column
+ * labels keep Nike's English copy (brand chrome); copyright/legal resolve from
+ * the dictionary so they localize. Utility links resolve to `#` — this clone has
+ * no marketing pages behind them.
+ */
+const GlobeIcon = ({ size = 16 }: { size?: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" aria-hidden>
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth={1.3} />
+    <path
+      stroke="currentColor"
+      strokeWidth={1.3}
+      d="M3 12h18M12 3c2.5 2.5 3.5 5.8 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.8-3.5-9s1-6.5 3.5-9Z"
+    />
+  </svg>
+);
+
+export default function Footer({ dictionary }: FooterProps) {
+  const legal = dictionary.footer.legal;
+
   const columns = [
     {
-      title: dictionary.footer.featured.title,
-      links: [
-        dictionary.footer.featured.airForce1,
-        dictionary.footer.featured.huarache,
-        dictionary.footer.featured.airMax90,
-        dictionary.footer.featured.airMax95,
-      ],
+      title: "Resources",
+      links: ["Gift Cards", "Find a Store", "Become a Member", "Nike Journal", "Send Us Feedback"],
     },
     {
-      title: dictionary.footer.shoes.title,
-      links: [
-        dictionary.footer.shoes.allShoes,
-        dictionary.footer.shoes.customShoes,
-        dictionary.footer.shoes.jordanShoes,
-        dictionary.footer.shoes.runningShoes,
-      ],
+      title: "Help",
+      links: ["Get Help", "Order Status", "Shipping & Delivery", "Returns", "Payment Options", "Contact Us"],
     },
     {
-      title: dictionary.footer.clothing.title,
-      links: [
-        dictionary.footer.clothing.allClothing,
-        dictionary.footer.clothing.modestWear,
-        dictionary.footer.clothing.hoodies,
-        dictionary.footer.clothing.shirts,
-      ],
+      title: "Company",
+      links: ["About Nike", "News", "Careers", "Investors", "Sustainability", "Purpose"],
     },
     {
-      title: dictionary.footer.kids.title,
-      links: [
-        dictionary.footer.kids.infantToddler,
-        dictionary.footer.kids.kidsShoes,
-        dictionary.footer.kids.kidsJordan,
-        dictionary.footer.kids.kidsBasketball,
-      ],
+      title: "Promotions & Discounts",
+      links: ["Student", "Military", "Teacher", "First Responders & Medical Professionals", "Birthday"],
     },
-  ] as const;
+  ];
+
+  const legalLinks = [
+    legal.guides,
+    legal.termsOfSale,
+    legal.termsOfUse,
+    legal.privacyPolicy,
+    "Your Privacy Choices",
+    "CA Supply Chains Act",
+  ];
+
   return (
-    <footer className="bg-dark-900 text-light-100">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-12">
-          <div className="flex items-start md:col-span-2">
-            <Image src="/logo.svg" alt="Nike" width={48} height={48} />
-          </div>
+    <footer className="bg-light-100 text-dark-900">
+      <div className="px-4 pb-8 pt-12 sm:px-6 lg:px-10">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-4 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]">
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h3 className="mb-4 text-caption font-medium uppercase tracking-wide text-dark-700">
+                {col.title}
+              </h3>
+              <ul className="space-y-3.5">
+                {col.links.map((label) => (
+                  <li key={label}>
+                    <Link
+                      href="#"
+                      className="text-caption text-dark-700 transition-colors hover:text-dark-900"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 md:col-span-8">
-            {columns.map((col) => (
-              <div key={col.title}>
-                <h4 className="mb-4 text-body-medium">{col.title}</h4>
-                <ul className="space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l}>
-                      <Link
-                        href={`/${lang}`}
-                        className="text-caption text-light-400 hover:text-light-300"
-                      >
-                        {l}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex gap-4 md:col-span-2 md:justify-end">
-            {[
-              { icon: Linkedin, alt: "LinkedIn", link: "https://www.linkedin.com/company/databayt-auto" },
-              { icon: Facebook, alt: "Facebook", link: "https://www.facebook.com/profile.php?id=61579954895228" },
-              { icon: MessageCircle, alt: "WhatsApp", link: "https://wa.me/00966557721603" },
-            ].map((s) => (
-              <Link
-                key={s.alt}
-                href={s.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.alt}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-light-100 text-dark-900 hover:bg-light-200"
-              >
-                <s.icon size={18} />
-              </Link>
-            ))}
+          {/* Country/region selector — pinned to the inline-end on wide screens. */}
+          <div className="col-span-2 flex items-start sm:col-span-4 lg:col-span-1 lg:justify-end">
+            <button
+              type="button"
+              className="flex items-center gap-2 text-caption font-medium text-dark-900 transition-colors hover:text-dark-700"
+            >
+              <GlobeIcon />
+              United States
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-4 text-light-400 sm:flex-row sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 text-footnote">
-            <Image src="/globe.svg" alt="" width={16} height={16} />
-            <span>{dictionary.footer.location}</span>
+      <div className="px-4 pb-10 sm:px-6 lg:px-10">
+        <div className="flex flex-col gap-3 border-t border-light-300 pt-6 text-footnote text-dark-700 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1.5">
+              <GlobeIcon size={14} />
+              United States
+            </span>
             <span>{dictionary.footer.copyright}</span>
           </div>
-          <ul className="flex items-center gap-6 text-footnote">
-            {[
-              dictionary.footer.legal.guides,
-              dictionary.footer.legal.termsOfSale,
-              dictionary.footer.legal.termsOfUse,
-              dictionary.footer.legal.privacyPolicy,
-            ].map((t) => (
-              <li key={t}>
-                <Link href={`/${lang}`}>{t}</Link>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {legalLinks.map((label) => (
+              <li key={label}>
+                <Link href="#" className="transition-colors hover:text-dark-900">
+                  {label}
+                </Link>
               </li>
             ))}
           </ul>

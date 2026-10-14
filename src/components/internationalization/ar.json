@@ -38,6 +38,104 @@
     "menu": "القائمة",
     "close": "إغلاق"
   },
+  "header": {
+    "men": "رجال",
+    "women": "نساء",
+    "kids": "أطفال",
+    "jordan": "جوردن",
+    "nikeskims": "NikeSKIMS",
+    "sale": "تخفيضات",
+    "soccer": "كرة القدم",
+    "findAStore": "ابحث عن متجر",
+    "help": "المساعدة",
+    "joinUs": "انضم إلينا",
+    "signIn": "تسجيل الدخول",
+    "nikeHome": "الصفحة الرئيسية لنايكي",
+    "search": "بحث",
+    "searchPlaceholder": "ابحث",
+    "popularSearch": "عمليات البحث الشائعة",
+    "askNikeAI": "اسأل NikeAI",
+    "favorites": "المفضلة",
+    "bag": "الحقيبة",
+    "menu": "القائمة",
+    "close": "إغلاق"
+  },
+  "hero": {
+    "carousel": "العرض المميز",
+    "pagination": "ترقيم العرض",
+    "goToSlide": "اذهب إلى الشريحة",
+    "previous": "السابق",
+    "next": "التالي",
+    "pause": "إيقاف مؤقت",
+    "play": "تشغيل"
+  },
+  "filmstrip": {
+    "label": "مجموعات مختارة",
+    "soccerLifestyle": "تسوّق ستايل كرة القدم",
+    "cleats": "تسوّق أحذية الملاعب",
+    "repTeam": "ادعم فريقك"
+  },
+  "men": {
+    "meta": {
+      "title": "أحذية وملابس وإكسسوارات رجالية. Nike.com",
+      "description": "تسوّق أحذية وملابس وإكسسوارات Nike الرجالية. اكتشف أحدث التصاميم المصمّمة لكل رياضة ولكل يوم."
+    },
+    "nav": {
+      "men": "رجال",
+      "shopAll": "تسوّق الكل",
+      "shoes": "أحذية",
+      "clothing": "ملابس",
+      "accessories": "إكسسوارات"
+    },
+    "cta": {
+      "shop": "تسوّق",
+      "shopAll": "تسوّق الكل",
+      "watch": "شاهد",
+      "pause": "إيقاف مؤقت",
+      "play": "تشغيل"
+    },
+    "sections": {
+      "trendingNow": "الأكثر رواجًا",
+      "featuredFootwear": "أحذية مميزة",
+      "latestInClothing": "أحدث الملابس",
+      "shopBySport": "تسوّق حسب الرياضة",
+      "shopByCategory": "تسوّق حسب الفئة"
+    },
+    "promo": {
+      "newArrivals": "وصل حديثًا",
+      "bestSellers": "الأكثر مبيعًا",
+      "latestDrops": "أحدث الإصدارات"
+    },
+    "sport": {
+      "soccer": "كرة القدم",
+      "basketball": "كرة السلة",
+      "running": "الجري",
+      "baseball": "البيسبول",
+      "golf": "الغولف",
+      "swim": "السباحة",
+      "training": "التدريب"
+    },
+    "category": {
+      "shoes": "الأحذية",
+      "clothing": "الملابس",
+      "accessories": "الإكسسوارات"
+    },
+    "footerNav": {
+      "mensShoes": "أحذية رجالية",
+      "mensClothing": "ملابس رجالية",
+      "mensGear": "معدّات رجالية",
+      "featured": "مميز"
+    },
+    "a11y": {
+      "promo": "جديد ومميز",
+      "footerNav": "فئات الرجال",
+      "heroCarousel": "العرض المميز",
+      "pagination": "ترقيم العرض",
+      "goToSlide": "اذهب إلى الشريحة",
+      "previous": "السابق",
+      "next": "التالي"
+    }
+  },
   "auth": {
     "signIn": "تسجيل الدخول",
     "signUp": "إنشاء حساب",
@@ -186,30 +284,36 @@
     "copyright": "© 2025 نايكي. جميع الحقوق محفوظة"
   },
   "home": {
-    "welcome": "مرحباً بك في متجر نايكي",
-    "heroTitle": "Just Do It",
-    "heroSubtitle": "اكتشف الحذاء المثالي لك",
-    "shopNow": "تسوق الآن",
-    "newArrivals": "وصل حديثاً",
-    "trending": "الرائج الآن",
-    "featured": "منتجات مميزة",
-    "categories": "تسوق حسب الفئة",
-    "running": "الجري",
-    "lifestyle": "نمط الحياة",
-    "training": "التدريب",
-    "basketball": "كرة السلة",
-    "football": "كرة القدم",
-    "heroTagline": "جريء ورياضي",
-    "heroMainTitle": "أسلوب يتحرك معك",
-    "heroDescription": "ليس مجرد أسلوب. ليس مجرد راحة. أحذية تتحرك بسلاسة مع كل خطوة تخطوها.",
-    "findYourShoe": "ابحث عن حذائك",
-    "reactPresto": "رياكت بريستو",
-    "reactPrestoDesc": "مع رغوة React للحصول على أكثر برستو راحة على الإطلاق.",
-    "summerMustHaves": "ضروريات الصيف: إير ماكس ديا",
-    "airJordan11": "إير جوردان 11 ريترو لو LE",
-    "nikeReact": "نايكي رياكت",
-    "prestoByYou": "بريستو من تصميمك",
-    "reactDescription": "استفد من تقنية التوسيد الجديدة والحصرية مع زوج جديد من أحذية نايكي رياكت."
+    "sections": {
+      "trendingNow": "الرائج الآن",
+      "bestSellers": "الأكثر مبيعاً",
+      "chooseYourTeam": "اختر فريقك",
+      "theEssentials": "الأساسيات"
+    },
+    "cta": {
+      "shop": "تسوّق",
+      "shopAll": "تسوّق الكل"
+    },
+    "essentials": {
+      "mensShoes": "أحذية رجالية",
+      "womensShoes": "أحذية نسائية",
+      "mensClothing": "ملابس رجالية",
+      "womensClothing": "ملابس نسائية",
+      "kidsShoes": "أحذية أطفال",
+      "airForce1": "إير فورس 1",
+      "jordan": "جوردان",
+      "running": "الجري",
+      "basketball": "كرة السلة",
+      "sportswear": "الملابس الرياضية"
+    },
+    "chooseTeam": {
+      "eyebrow": "اتحادات وأندية",
+      "seeAll": "عرض الكل",
+      "seeLess": "عرض أقل"
+    },
+    "a11y": {
+      "spotlight": "العرض المميز"
+    }
   },
   "account": {
     "myAccount": "حسابي",

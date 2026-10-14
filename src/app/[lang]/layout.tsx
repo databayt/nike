@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getDictionary } from "@/components/internationalization/dictionaries";
 import { type Locale, localeConfig } from "@/components/internationalization/config";
-import { Footer, Navbar, LocaleProvider } from "@/components";
+import { Footer, LocaleProvider } from "@/components";
+import Header from "@/components/site/header";
 import "../globals.css";
 
 
@@ -49,7 +50,7 @@ export default async function LocaleLayout({
       >
         {dictionary.common.skipToContent}
       </a>
-      <Navbar dictionary={dictionary} lang={lang} />
+      <Header dictionary={dictionary} lang={lang} />
       <main id="main-content" className="min-h-screen">
         {children}
       </main>

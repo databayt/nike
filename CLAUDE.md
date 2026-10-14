@@ -109,4 +109,5 @@ src/
 - Product images in `static/uploads/shoes/` with UUID-prefixed filenames
 - Schema changes: run `pnpm db:generate` then `pnpm db:push`
 - Drizzle config expects schema at `src/lib/db/schema/index.ts`
+- Port: Runs on `localhost:3002` (bypassing the rule of 3000 because we are cloning Nike and running on 3000/3001 is not preferred here)
 - Layout params use `string` type (Next.js 16 stricter typing) then cast to `Locale`
