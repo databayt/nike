@@ -44,8 +44,6 @@
     "kids": "Kids",
     "jordan": "Jordan",
     "nikeskims": "NikeSKIMS",
-    "sale": "Sale",
-    "soccer": "Nike Soccer",
     "findAStore": "Find a Store",
     "help": "Help",
     "joinUs": "Join Us",
@@ -58,22 +56,9 @@
     "favorites": "Favorites",
     "bag": "Bag",
     "menu": "Menu",
-    "close": "Close"
-  },
-  "hero": {
-    "carousel": "Featured carousel",
-    "pagination": "Carousel pagination",
-    "goToSlide": "Go to slide",
-    "previous": "Previous",
-    "next": "Next",
-    "pause": "Pause",
-    "play": "Play"
-  },
-  "filmstrip": {
-    "label": "Featured collections",
-    "soccerLifestyle": "Shop Soccer Lifestyle",
-    "cleats": "Shop Cleats",
-    "repTeam": "Rep Your Team"
+    "close": "Close",
+    "sport": "Sport",
+    "sportswear": "Sportswear"
   },
   "men": {
     "meta": {
@@ -281,38 +266,17 @@
       "privacyPolicy": "Privacy Policy"
     },
     "location": "Saudi Arabia",
-    "copyright": "© 2025 Nike, Inc. All Rights Reserved"
+    "copyright": "© 2026 Nike, Inc. All Rights Reserved"
   },
   "home": {
-    "sections": {
-      "trendingNow": "Trending Now",
-      "bestSellers": "Best Sellers",
-      "chooseYourTeam": "Choose Your Team",
-      "theEssentials": "The Essentials"
-    },
     "cta": {
       "shop": "Shop",
-      "shopAll": "Shop All"
-    },
-    "essentials": {
-      "mensShoes": "Men's Shoes",
-      "womensShoes": "Women's Shoes",
-      "mensClothing": "Men's Clothing",
-      "womensClothing": "Women's Clothing",
-      "kidsShoes": "Kids' Shoes",
-      "airForce1": "Air Force 1",
-      "jordan": "Jordan",
-      "running": "Running",
-      "basketball": "Basketball",
-      "sportswear": "Sportswear"
-    },
-    "chooseTeam": {
-      "eyebrow": "Federations & Clubs",
-      "seeAll": "See All",
-      "seeLess": "See Less"
+      "watch": "Watch",
+      "seeAll": "See All"
     },
     "a11y": {
-      "spotlight": "Featured spotlight"
+      "previous": "Previous",
+      "next": "Next"
     }
   },
   "account": {

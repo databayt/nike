@@ -22,11 +22,10 @@ export default function LocaleProvider({ children }: { children: React.ReactNode
     // Remove existing font classes
     body.classList.remove('font-inter', 'font-rubik');
 
-    // Add correct font class
+    // RTL switches to Rubik; LTR keeps the stylesheet's nike stack
+    // (Helvetica first, Inter as the fallback).
     if (isRTL) {
       body.classList.add('font-rubik');
-    } else {
-      body.classList.add('font-inter');
     }
   }, [locale, config.dir]);
 

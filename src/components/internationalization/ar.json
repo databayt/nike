@@ -44,8 +44,6 @@
     "kids": "أطفال",
     "jordan": "جوردن",
     "nikeskims": "NikeSKIMS",
-    "sale": "تخفيضات",
-    "soccer": "كرة القدم",
     "findAStore": "ابحث عن متجر",
     "help": "المساعدة",
     "joinUs": "انضم إلينا",
@@ -58,22 +56,9 @@
     "favorites": "المفضلة",
     "bag": "الحقيبة",
     "menu": "القائمة",
-    "close": "إغلاق"
-  },
-  "hero": {
-    "carousel": "العرض المميز",
-    "pagination": "ترقيم العرض",
-    "goToSlide": "اذهب إلى الشريحة",
-    "previous": "السابق",
-    "next": "التالي",
-    "pause": "إيقاف مؤقت",
-    "play": "تشغيل"
-  },
-  "filmstrip": {
-    "label": "مجموعات مختارة",
-    "soccerLifestyle": "تسوّق ستايل كرة القدم",
-    "cleats": "تسوّق أحذية الملاعب",
-    "repTeam": "ادعم فريقك"
+    "close": "إغلاق",
+    "sport": "رياضة",
+    "sportswear": "ملابس رياضية"
   },
   "men": {
     "meta": {
@@ -281,38 +266,17 @@
       "privacyPolicy": "سياسة الخصوصية"
     },
     "location": "المملكة العربية السعودية",
-    "copyright": "© 2025 نايكي. جميع الحقوق محفوظة"
+    "copyright": "© 2026 نايكي. جميع الحقوق محفوظة"
   },
   "home": {
-    "sections": {
-      "trendingNow": "الرائج الآن",
-      "bestSellers": "الأكثر مبيعاً",
-      "chooseYourTeam": "اختر فريقك",
-      "theEssentials": "الأساسيات"
-    },
     "cta": {
-      "shop": "تسوّق",
-      "shopAll": "تسوّق الكل"
-    },
-    "essentials": {
-      "mensShoes": "أحذية رجالية",
-      "womensShoes": "أحذية نسائية",
-      "mensClothing": "ملابس رجالية",
-      "womensClothing": "ملابس نسائية",
-      "kidsShoes": "أحذية أطفال",
-      "airForce1": "إير فورس 1",
-      "jordan": "جوردان",
-      "running": "الجري",
-      "basketball": "كرة السلة",
-      "sportswear": "الملابس الرياضية"
-    },
-    "chooseTeam": {
-      "eyebrow": "اتحادات وأندية",
-      "seeAll": "عرض الكل",
-      "seeLess": "عرض أقل"
+      "shop": "تسوق",
+      "watch": "شاهد",
+      "seeAll": "عرض الكل"
     },
     "a11y": {
-      "spotlight": "العرض المميز"
+      "previous": "السابق",
+      "next": "التالي"
     }
   },
   "account": {

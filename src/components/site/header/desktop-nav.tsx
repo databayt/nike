@@ -31,13 +31,7 @@ export default function DesktopNav({ dictionary, lang }: DesktopNavProps) {
                 className="relative flex h-full items-center text-base font-medium text-dark-900 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-center after:scale-x-0 after:bg-dark-900 after:transition-transform after:duration-200 hover:after:scale-x-100 group-hover:after:scale-x-100"
                 aria-haspopup={item.columns ? "menu" : undefined}
               >
-                {item.columns ? (
-                  label
-                ) : (
-                  <span className="nav-glitch" data-text={label}>
-                    {label}
-                  </span>
-                )}
+                {label}
               </Link>
               {item.columns && <MegaMenu columns={item.columns} label={`${label} menu`} />}
             </li>

@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* `inline`: next/font sets --font-inter / --font-anton on <body>, so the stacks
+   must resolve where they're used, not on :root where those vars don't exist. */
+@theme inline {
+  --font-sans: "Helvetica Now Text", Helvetica, Arial, var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-futura: "Nike Futura ND", var(--font-anton), Impact, sans-serif;
+}
+
 @theme {
   /* Dark shades */
   --color-dark-900: #111111;
@@ -17,10 +24,13 @@
   --color-red: #d33918;
   --color-orange: #d37918;
 
-  /* Font family — Inter approximates Nike's Helvetica Now; Rubik covers Arabic.
-     Mapped to --font-sans so Tailwind's base type + every `font-sans` use it. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-jost: "Jost", sans-serif;
+  /* nike.com's grid steps: tablet at 600px, desktop at 960px. */
+  --breakpoint-md: 37.5rem; /* 600px */
+  --breakpoint-lg: 60rem; /* 960px — rem like the defaults, or v4 mis-orders the media queries */
+
+  /* Font family — nike's stack is "Helvetica Now Text", Helvetica, Arial; the
+     system Helvetica is the closest free match, Inter the fallback. Rubik
+     covers Arabic. Futura ND (campaign headlines) → Anton. */
 
   /* Heading sizes */
   --text-heading-1: 72px;
@@ -62,7 +72,8 @@
 
 /* Apply the brand sans to the document; Arabic (RTL) switches to Rubik. */
 body {
-  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: "Helvetica Now Text", Helvetica, Arial, var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  color: #111;
 }
 :root[dir="rtl"] body {
   font-family: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;

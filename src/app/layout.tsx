@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Rubik, Oswald, Jost } from "next/font/google";
+import { Inter, Rubik, Oswald, Anton } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,13 +23,13 @@ const oswald = Oswald({
   display: 'swap'
 });
 
-// Geometric sans — a free stand-in for Nike's "Futura ND" brand display face,
-// which nike.com uses for its big uppercase homepage headlines (hero, spotlight
-// bands, the "Trending" rail). Jost matches Futura's wide geometric letterforms.
-const jost = Jost({
+// Condensed heavy grotesque — a free stand-in for "Nike Futura ND", the
+// proprietary face nike.com sets its uppercase campaign headlines in
+// (FULLY INVESTED, LAST WORD, TRENDING …).
+const anton = Anton({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-jost',
+  weight: '400',
+  variable: '--font-anton',
   display: 'swap'
 });
 
@@ -45,7 +45,7 @@ export default function RootShell({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={`${inter.variable} ${rubik.variable} ${oswald.variable} ${jost.variable} antialiased`}>
+      <body className={`${inter.variable} ${rubik.variable} ${oswald.variable} ${anton.variable} antialiased`}>
         {children}
       </body>
     </html>

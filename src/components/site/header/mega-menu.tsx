@@ -19,7 +19,8 @@ export default function MegaMenu({ columns, label }: MegaMenuProps) {
       aria-label={label}
       className="invisible absolute inset-x-0 top-full z-40 translate-y-1 bg-light-100 opacity-0 shadow-[0_16px_24px_-12px_rgba(0,0,0,0.12)] transition-[opacity,transform,visibility] duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
     >
-      <div className="mx-auto flex max-w-[1200px] justify-center gap-x-12 gap-y-8 px-6 py-9">
+      {/* Wraps: Sport carries nine columns, which nike lays out over two rows. */}
+      <div className="mx-auto flex max-w-[1200px] flex-wrap justify-center gap-x-12 gap-y-8 px-6 py-9">
         {columns.map((column) => (
           <div key={column.title} className="min-w-[140px]">
             <Link
