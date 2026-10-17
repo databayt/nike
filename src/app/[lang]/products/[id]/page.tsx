@@ -136,6 +136,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <main>
       <ProductView
+        productId={product.id}
         href={`/${lang}/products/${product.id}`}
         name={product.name}
         subtitle={subtitle}
@@ -148,6 +149,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           addToBag: dictionary.product.addToBag,
           added: dictionary.product.added,
           favorite: dictionary.product.favorite,
+          favorited: dictionary.product.favorited,
           pleaseSelectSize: dictionary.product.pleaseSelectSize,
           shown: dictionary.product.shown,
           style: dictionary.product.style,

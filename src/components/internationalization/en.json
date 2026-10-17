@@ -184,7 +184,8 @@
     "added": "Added to Bag",
     "pleaseSelectSize": "Please select a size.",
     "shown": "Shown",
-    "style": "Style"
+    "style": "Style",
+    "favorited": "Favorited"
   },
   "filters": {
     "title": "Filters",

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
 import { useCartStore } from "@/store/cart";
+import { useFavoritesStore } from "@/store/favorites";
 
 export interface PdpSize {
   name: string;
@@ -25,6 +26,7 @@ export interface PdpLabels {
   addToBag: string;
   added: string;
   favorite: string;
+  favorited: string;
   pleaseSelectSize: string;
   shown: string;
   style: string;
@@ -38,6 +40,7 @@ const usd = (n: number) => `$${Number.isInteger(n) ? n : n.toFixed(2)}`;
  * 2-up size grid, 60px pill buttons). Below 960px it stacks, title first.
  */
 export function ProductView({
+  productId,
   href,
   name,
   subtitle,
@@ -47,6 +50,7 @@ export function ProductView({
   labels,
   details,
 }: {
+  productId: string;
   href: string;
   name: string;
   subtitle?: string | null;
@@ -62,6 +66,8 @@ export function ProductView({
   const [error, setError] = useState(false);
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
+  const toggleFavorite = useFavoritesStore((s) => s.toggle);
+  const favorited = useFavoritesStore((s) => s.items.some((i) => i.productId === productId));
 
   const cw = colorways[ci];
   const onSale = cw.salePrice !== null && cw.salePrice < cw.price;
@@ -206,10 +212,22 @@ export function ProductView({
           </button>
           <button
             type="button"
+            aria-pressed={favorited}
+            onClick={() =>
+              toggleFavorite({
+                productId,
+                name,
+                subtitle: subtitle ?? undefined,
+                image: colorways[0].images[0],
+                price: colorways[0].price,
+                salePrice: colorways[0].salePrice ?? undefined,
+                href,
+              })
+            }
             className="flex h-[60px] items-center justify-center gap-2 rounded-[30px] border border-[#cacacb] text-base font-medium text-dark-900 hover:border-dark-900"
           >
-            {labels.favorite}
-            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            {favorited ? labels.favorited : labels.favorite}
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill={favorited ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
               <path d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451" />
             </svg>
           </button>
