@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { pgTable, text, timestamp, uuid, boolean } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { z } from 'zod';
@@ -18,6 +19,8 @@ export const products = pgTable('products', {
   badge: text('badge'),
   /** nike style code of the default colorway (e.g. IQ6011-400), for catalog refreshes. */
   styleCode: text('style_code'),
+  /** nike /w walls this product appears on (slugs from src/lib/walls). */
+  walls: text('walls').array().notNull().default(sql`'{}'::text[]`),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

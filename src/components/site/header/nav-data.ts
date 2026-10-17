@@ -1,3 +1,4 @@
+import { wallHref } from "@/lib/walls";
 import type { Locale } from "@/components/internationalization/config";
 
 /**
@@ -43,8 +44,9 @@ export function buildMainNav(lang: Locale): NavItem[] {
   const women = products(lang, "gender=women");
   const kids = products(lang, "gender=unisex");
   const search = (term: string) => products(lang, `search=${encodeURIComponent(term)}`);
-  const jordan = search("jordan");
-  const skims = search("nikeskims");
+  const w = (slug: string) => wallHref(lang, slug);
+  const jordan = w("jordan-37eef");
+  const skims = w("nikeskims-b2asd");
   const sport = products(lang);
 
   // Column titles + leaves mirror nike.com's desktop menus as of 2026-10-14.
@@ -54,9 +56,9 @@ export function buildMainNav(lang: Locale): NavItem[] {
       label: "Men",
       href: `/${lang}/men`,
       columns: [
-        col("New & Featured", men, ["New Arrivals", "Best Sellers", "Latest Drops", "Hybrid RN", "Nike Sportswear", "SNKRS Launch Calendar", "Shop All Sale"]),
-        col("Shoes", men, ["All Shoes", "Basketball", "Jordan", "Running", "Sportswear", "Training & Gym", "Custom Shoes"]),
-        col("Clothing", men, ["All Clothing", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Pants", "Shorts", "Tops & Graphic Tees"]),
+        col("New & Featured", w("new-3n82y"), ["New Arrivals", "Best Sellers", "Latest Drops", "Hybrid RN", "Nike Sportswear", "SNKRS Launch Calendar", "Shop All Sale"]),
+        col("Shoes", w("mens-shoes-nik1zy7ok"), ["All Shoes", "Basketball", "Jordan", "Running", "Sportswear", "Training & Gym", "Custom Shoes"]),
+        col("Clothing", w("mens-clothing-6ymx6znik1"), ["All Clothing", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Pants", "Shorts", "Tops & Graphic Tees"]),
         col("Accessories", men, ["All Accessories", "Bags & Backpacks", "Hats & Headwear", "Socks", "Sunglasses"]),
       ],
     },
@@ -66,8 +68,8 @@ export function buildMainNav(lang: Locale): NavItem[] {
       href: women,
       columns: [
         col("New & Featured", women, ["New Arrivals", "Best Sellers", "Hybrid RN", "Nike Sportswear", "SNKRS Launch Calendar", "Shop All Sale"]),
-        col("Shoes", women, ["All Shoes", "Basketball", "Jordan", "Running", "Sportswear", "Training & Gym", "Custom Shoes"]),
-        col("Clothing", women, ["All Clothing", "Bras", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Leggings", "Matching Sets", "Pants", "Shorts", "Tops & Graphics Tees"]),
+        col("Shoes", w("womens-shoes-5e1x6zy7ok"), ["All Shoes", "Basketball", "Jordan", "Running", "Sportswear", "Training & Gym", "Custom Shoes"]),
+        col("Clothing", w("womens-clothing-5e1x6z6ymx6"), ["All Clothing", "Bras", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Leggings", "Matching Sets", "Pants", "Shorts", "Tops & Graphics Tees"]),
         col("Accessories", women, ["All Accessories", "Bags & Backpacks", "Hats & Headwear", "Socks", "Sunglasses"]),
         col("Shop by Color", women, ["Dark Neutrals", "Purple Pulse", "Spruce Greens", "Very Berry", "Warm Neutrals"]),
       ],
@@ -78,8 +80,8 @@ export function buildMainNav(lang: Locale): NavItem[] {
       href: kids,
       columns: [
         col("New & Featured", kids, ["New Arrivals", "Best Sellers", "Nike Sportswear", "Nike x LEGO®", "Teens Collection", "Shop All Sale"]),
-        col("Shoes", kids, ["All Shoes", "Big Kids (7-12 yrs)", "Little Kids (3-7 yrs)", "Baby & Toddler (0-3 yrs)", "Basketball", "Jordan", "Running", "Sportswear"]),
-        col("Clothing", kids, ["All Clothing", "Big Kids (7-12 yrs)", "Little Kids (3-7 yrs)", "Baby & Toddler (0-3 yrs)", "Bras & Tights", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Pants", "Shorts", "Tops & Graphics Tees"]),
+        col("Shoes", w("kids-shoes-v4dhzy7ok"), ["All Shoes", "Big Kids (7-12 yrs)", "Little Kids (3-7 yrs)", "Baby & Toddler (0-3 yrs)", "Basketball", "Jordan", "Running", "Sportswear"]),
+        col("Clothing", w("kids-clothing-6ymx6zv4dh"), ["All Clothing", "Big Kids (7-12 yrs)", "Little Kids (3-7 yrs)", "Baby & Toddler (0-3 yrs)", "Bras & Tights", "Fleece", "Hoodies & Sweatshirts", "Jackets & Vests", "Pants", "Shorts", "Tops & Graphics Tees"]),
         col("Accessories", kids, ["All Accessories", "Bags & Backpacks", "Hats & Headwear", "Socks"]),
         col("Shop By Sport", kids, ["Basketball", "Gymnastics", "Fan Gear", "Football", "Running", "Soccer"]),
       ],
@@ -113,15 +115,15 @@ export function buildMainNav(lang: Locale): NavItem[] {
       label: "Sport",
       href: sport,
       columns: [
-        col("Basketball", search("basketball"), ["Shoes", "Apparel", "Equipment", "Kobe", "Jordan"]),
+        col("Basketball", w("basketball-shoes-3glsmzy7ok"), ["Shoes", "Apparel", "Equipment", "Kobe", "Jordan"]),
         col("Court", search("tennis"), ["Tennis", "Pickleball", "Shoes", "Apparel", "Equipment"]),
         col("Soccer", search("soccer"), ["Cleats", "Indoor Footwear", "Apparel", "Equipment"]),
-        col("Training", search("training"), ["Prime", "Train", "Hybrid", "Strength", "Studio", "Recover"]),
-        col("Running", search("running"), ["Road", "Race", "Trail", "Track & Field", "Apparel", "Running Shoe Finder"]),
+        col("Training", w("hybrid-training-8wvhh"), ["Prime", "Train", "Hybrid", "Strength", "Studio", "Recover"]),
+        col("Running", w("running-shoes-37v7jzy7ok"), ["Road", "Race", "Trail", "Track & Field", "Apparel", "Running Shoe Finder"]),
         col("Golf", search("golf"), ["Shoes", "Apparel", "Equipment"]),
         col("More Sports", sport, ["Baseball", "Cheer", "Football", "Gymnastics", "Lacrosse", "Skateboarding", "Softball", "Sportswear", "Swimming", "Volleyball", "Wrestling"]),
         col("Locker Room", search("jersey"), ["NBA Gear", "NFL Gear", "MLB Gear", "WNBA Gear", "NCAA Gear", "NWSL Gear", "Soccer Club Gear", "Federations Gear"]),
-        col("All Conditions Gear", search("acg"), ["Trail Run", "Hike", "Explore"]),
+        col("All Conditions Gear", w("acg-9wwbq"), ["Trail Run", "Hike", "Explore"]),
       ],
     },
     { key: "sportswear", label: "Sportswear", href: search("sportswear") },

@@ -55,6 +55,10 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
     conds.push(or(ilike(products.name, pattern), ilike(products.description, pattern))!);
   }
 
+  if (filters.wall) {
+    conds.push(sql`${filters.wall} = any(${products.walls})`);
+  }
+
   if (filters.genderSlugs.length) {
     conds.push(inArray(genders.slug, filters.genderSlugs));
   }

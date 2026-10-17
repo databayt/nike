@@ -80,6 +80,8 @@ export function getStringParam(search: string, key: string): string | undefined 
 
 export type NormalizedProductFilters = {
   search?: string;
+  /** nike /w wall slug (set by the /w route, not the query string). */
+  wall?: string;
   genderSlugs: string[];
   sizeSlugs: string[];
   colorSlugs: string[];

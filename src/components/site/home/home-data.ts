@@ -1,3 +1,4 @@
+import { wallHref } from "@/lib/walls";
 import type { Locale } from "@/components/internationalization/config";
 
 /**
@@ -165,8 +166,23 @@ export const GRADIENT_BAND = BAND;
 const png = (id: string, ratio: number): Img => ({ id, ratio, ext: "png" });
 const jpg = (id: string, ratio: number): Img => ({ id, ratio });
 
+/** Campaign terms that have a real nike wall; the rest fall back to search. */
+const TERM_WALLS: Record<string, string> = {
+  nfl: "nfl-9bklc",
+  mlb: "mlb-b0g9x",
+  caitlin: "caitlin-clark-b0s81",
+  "aja wilson": "aja-wilson-4yj6f",
+  nikeskims: "nikeskims-b2asd",
+  pegasus: "pegasus-shoes-8nexhzy7ok",
+  training: "hybrid-training-8wvhh",
+  mercurial: "mercurial-soccer-shoes-1gdj0z4f1bzy7ok",
+  phantom: "phantom-soccer-shoes-1gdj0z1msyxzy7ok",
+  tiempo: "tiempo-soccer-shoes-1gdj0z20w7kzy7ok",
+};
+
 export function buildHomeSections(lang: Locale): HomeSection[] {
-  const q = (term: string) => `/${lang}/products?search=${encodeURIComponent(term)}`;
+  const q = (term: string) =>
+    TERM_WALLS[term] ? wallHref(lang, TERM_WALLS[term]) : `/${lang}/products?search=${encodeURIComponent(term)}`;
   const men = `/${lang}/men`;
   const women = `/${lang}/products?gender=women`;
 
