@@ -1,5 +1,7 @@
 "use server";
 
+import { SHOWCASE } from "@/lib/showcase";
+
 import {cookies, headers} from "next/headers";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
@@ -61,6 +63,7 @@ const signUpSchema = z.object({
 });
 
 export async function signUp(formData: FormData) {
+  if (SHOWCASE) return { ok: false, error: "Accounts are disabled on this showcase." };
   const rawData = {
     name: formData.get('name') as string,
     email: formData.get('email') as string,
@@ -87,6 +90,7 @@ const signInSchema = z.object({
 });
 
 export async function signIn(formData: FormData) {
+  if (SHOWCASE) return { ok: false, error: "Accounts are disabled on this showcase." };
   const rawData = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,

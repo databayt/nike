@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Rubik, Oswald, Anton } from "next/font/google";
 import "./globals.css";
+import { ShowcaseBanner } from "@/components/site/showcase/banner";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,8 +35,9 @@ const anton = Anton({
 });
 
 export const metadata: Metadata = {
-  title: "Nike",
-  description: "An e-commerce platform for Nike shoes",
+  title: "Nike clone — databayt portfolio",
+  description: "A portfolio clone of nike.com built by databayt. Not affiliated with Nike, Inc.",
+  robots: { index: false, follow: false },
 };
 
 export default function RootShell({
@@ -46,6 +48,7 @@ export default function RootShell({
   return (
     <html suppressHydrationWarning>
       <body className={`${inter.variable} ${rubik.variable} ${oswald.variable} ${anton.variable} antialiased`}>
+        <ShowcaseBanner />
         {children}
       </body>
     </html>

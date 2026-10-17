@@ -9,6 +9,17 @@ export const metadata: Metadata = { title: "Order Placed", robots: { index: fals
 
 export default async function ConfirmationPage({ params }: { params: Promise<{ lang: string; id: string }> }) {
   const { lang, id } = await params;
+  if (id === "demo") {
+    return (
+      <main className="mx-auto max-w-xl px-6 py-24 text-center">
+        <h1 className="text-2xl font-medium">Order flow complete.</h1>
+        <p className="pt-3 text-base text-[#707072]">This is a portfolio demo: nothing was stored, charged or shipped.</p>
+        <Link href={`/${lang}/products`} className="mt-8 inline-block rounded-full bg-dark-900 px-6 py-3 font-medium text-light-100">
+          Continue Shopping
+        </Link>
+      </main>
+    );
+  }
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
   const [order] = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
   if (!order) notFound();

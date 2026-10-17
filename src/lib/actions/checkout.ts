@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { addresses, orderItems, orders, productVariants } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/auth/actions";
 import { shippingFor } from "@/lib/checkout";
+import { SHOWCASE } from "@/lib/showcase";
 
 const orderSchema = z.object({
   lines: z
@@ -53,6 +54,9 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   }
   const subtotal = priced.reduce((s, l) => s + l.unit * l.quantity, 0);
   const total = subtotal + shippingFor(subtotal);
+
+  // Public showcase: validate and price the order, but store nothing.
+  if (SHOWCASE) return { ok: true, orderId: "demo" };
 
   const user = await getCurrentUser();
   let shippingAddressId: string | null = null;
