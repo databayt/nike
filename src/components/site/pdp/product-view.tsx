@@ -38,6 +38,7 @@ const usd = (n: number) => `$${Number.isInteger(n) ? n : n.toFixed(2)}`;
  * 2-up size grid, 60px pill buttons). Below 960px it stacks, title first.
  */
 export function ProductView({
+  href,
   name,
   subtitle,
   badge,
@@ -46,6 +47,7 @@ export function ProductView({
   labels,
   details,
 }: {
+  href: string;
   name: string;
   subtitle?: string | null;
   badge?: string | null;
@@ -79,7 +81,17 @@ export function ProductView({
       setError(true);
       return;
     }
-    addItem({ id: chosen.variantId, name: `${name} — ${cw.color} / ${chosen.name}`, price, image: cw.images[0] });
+    addItem({
+      id: chosen.variantId,
+      name,
+      price,
+      compareAt: onSale ? cw.price : undefined,
+      image: cw.images[0],
+      subtitle: subtitle ?? undefined,
+      color: cw.color,
+      size: chosen.name,
+      href,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

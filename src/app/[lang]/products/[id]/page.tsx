@@ -136,6 +136,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <main>
       <ProductView
+        href={`/${lang}/products/${product.id}`}
         name={product.name}
         subtitle={subtitle}
         badge={product.badge}

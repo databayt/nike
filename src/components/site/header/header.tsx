@@ -6,6 +6,7 @@ import DesktopNav from "./desktop-nav";
 import SearchBar from "./search";
 import MobileMenu from "./mobile-menu";
 import { SwooshLogo, HeartIcon, BagIcon } from "./icons";
+import { BagLink } from "./bag-link";
 
 interface HeaderProps {
   dictionary: Dictionary;
@@ -63,13 +64,9 @@ export default function Header({ dictionary, lang }: HeaderProps) {
             <HeartIcon size={24} />
           </Link>
 
-          <Link
-            href={`/${lang}/cart`}
-            aria-label={`${header.bag || "Bag"} Items: 0`}
-            className="relative flex h-11 w-11 items-center justify-center rounded-full text-dark-900 transition-colors hover:bg-light-200"
-          >
+          <BagLink href={`/${lang}/cart`} label={header.bag || "Bag"}>
             <BagIcon size={24} />
-          </Link>
+          </BagLink>
 
           <MobileMenu dictionary={dictionary} lang={lang} />
         </div>

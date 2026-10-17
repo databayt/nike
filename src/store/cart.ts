@@ -1,12 +1,19 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface CartItem {
+export interface CartItem {
+  /** Variant id — one bag line per colourway + size. */
   id: string;
   name: string;
   price: number;
   quantity: number;
   image?: string;
+  /** Original price when the line is marked down. */
+  compareAt?: number;
+  subtitle?: string;
+  color?: string;
+  size?: string;
+  href?: string;
 }
 
 interface CartState {
