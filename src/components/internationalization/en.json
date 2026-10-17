@@ -180,7 +180,11 @@
     "chooseColor": "Choose color",
     "color": "Color",
     "highQualityShoes": "High quality sports shoes",
-    "modernComfortableDesign": "Modern and comfortable design"
+    "modernComfortableDesign": "Modern and comfortable design",
+    "added": "Added to Bag",
+    "pleaseSelectSize": "Please select a size.",
+    "shown": "Shown",
+    "style": "Style"
   },
   "filters": {
     "title": "Filters",

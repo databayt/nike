@@ -226,6 +226,7 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
 
 export type FullProduct = {
   product: SelectProduct & {
+    badge?: string | null;
     brand?: SelectBrand | null;
     category?: SelectCategory | null;
     gender?: SelectGender | null;
@@ -245,6 +246,7 @@ export async function getProduct(productId: string): Promise<FullProduct | null>
       productId: products.id,
       productName: products.name,
       productDescription: products.description,
+      productBadge: products.badge,
       productBrandId: products.brandId,
       productCategoryId: products.categoryId,
       productGenderId: products.genderId,
@@ -304,12 +306,9 @@ export async function getProduct(productId: string): Promise<FullProduct | null>
 
   const head = rows[0];
 
-  const product: SelectProduct & {
-    brand?: SelectBrand | null;
-    category?: SelectCategory | null;
-    gender?: SelectGender | null;
-  } = {
+  const product: FullProduct["product"] = {
     id: head.productId,
+    badge: head.productBadge ?? null,
     name: head.productName,
     description: head.productDescription,
     brandId: head.productBrandId ?? null,
@@ -409,6 +408,7 @@ export type Review = {
 export type RecommendedProduct = {
   id: string;
   title: string;
+  subtitle?: string | null;
   price: number | null;
   imageUrl: string;
 };
@@ -483,6 +483,7 @@ export async function getRecommendedProducts(productId: string): Promise<Recomme
     .select({
       id: products.id,
       title: products.name,
+      subtitle: products.description,
       minPrice: sql<number | null>`min(${v.price})`,
       imageUrl: sql<string | null>`max(case when ${pi.rn} = 1 then ${pi.url} else null end)`,
       createdAt: products.createdAt,
@@ -491,13 +492,13 @@ export async function getRecommendedProducts(productId: string): Promise<Recomme
     .leftJoin(v, eq(v.productId, products.id))
     .leftJoin(pi, eq(pi.productId, products.id))
     .where(and(eq(products.isPublished, true), sql`${products.id} <> ${productId}`))
-    .groupBy(products.id, products.name, products.createdAt)
+    .groupBy(products.id, products.name, products.createdAt, products.description)
     .orderBy(
       desc(priority),
       desc(products.createdAt),
       asc(products.id)
     )
-    .limit(8);
+    .limit(14);
 
   const out: RecommendedProduct[] = [];
   for (const r of rows) {
@@ -506,10 +507,11 @@ export async function getRecommendedProducts(productId: string): Promise<Recomme
     out.push({
       id: r.id,
       title: r.title,
+      subtitle: r.subtitle && r.subtitle.length < 60 ? r.subtitle : null,
       price: r.minPrice === null ? null : Number(r.minPrice),
       imageUrl: img,
     });
-    if (out.length >= 6) break;
+    if (out.length >= 12) break;
   }
   return out;
 }

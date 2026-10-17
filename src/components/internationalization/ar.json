@@ -180,7 +180,11 @@
     "chooseColor": "اختر اللون",
     "color": "اللون",
     "highQualityShoes": "أحذية رياضية عالية الجودة",
-    "modernComfortableDesign": "تصميم عصري ومريح"
+    "modernComfortableDesign": "تصميم عصري ومريح",
+    "added": "أُضيف إلى الحقيبة",
+    "pleaseSelectSize": "يرجى اختيار المقاس.",
+    "shown": "المعروض",
+    "style": "الطراز"
   },
   "filters": {
     "title": "الفلاتر",

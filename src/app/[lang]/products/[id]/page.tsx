@@ -1,245 +1,169 @@
 import Link from "next/link";
-import { Suspense } from "react";
-import { Card, CollapsibleSection, ProductGallery, SizePicker, RiyalSymbol } from "@/components";
-import { Heart, ShoppingBag, Star } from "lucide-react";
-import ColorSwatches from "@/components/ColorSwatches";
-import { getProduct, getProductReviews, getRecommendedProducts, type Review, type RecommendedProduct } from "@/lib/actions/product";
+import { Suspense, type ReactNode } from "react";
+import { getProduct, getProductReviews, getRecommendedProducts, type FullProduct } from "@/lib/actions/product";
 import { getDictionary, type Dictionary } from "@/components/internationalization/dictionaries";
 import { type Locale } from "@/components/internationalization/config";
+import { ProductView, type PdpColorway } from "@/components/site/pdp/product-view";
+import { WallCard } from "@/components/site/wall/product-card";
 
-type GalleryVariant = { color: string; images: string[] };
+/** Catalog SKUs are `NK-<style code>-<size>`; the style code identifies a colourway. */
+/** Shoe sizes sort numerically ("6.5", "4Y"); apparel letters fall back to the stored order. */
+const sizeKey = (v: FullProduct["variants"][number]) => {
+  const n = parseFloat(v.size?.name ?? "");
+  return Number.isNaN(n) ? 1000 + (v.size?.sortOrder ?? 0) : n;
+};
 
-function formatPrice(price: number | null | undefined) {
-  if (price === null || price === undefined) return undefined;
-  return (
-    <span className="flex items-center gap-1">
-      <RiyalSymbol size={16} />
-      {price.toFixed(2)}
-    </span>
-  );
+const styleCode = (sku: string) => sku.match(/^NK-([A-Z0-9]+-[A-Z0-9]+)-/)?.[1] ?? null;
+
+function toColorways({ variants, images }: FullProduct): PdpColorway[] {
+  const productImages = images
+    .filter((i) => i.variantId === null)
+    .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary) || (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map((i) => i.url);
+
+  const groups = new Map<string, FullProduct["variants"]>();
+  for (const v of variants) {
+    const key = styleCode(v.sku) ?? v.colorId;
+    groups.set(key, [...(groups.get(key) ?? []), v]);
+  }
+
+  return [...groups.entries()].map(([key, vs]) => {
+    const ids = new Set(vs.map((v) => v.id));
+    const own = images.filter((i) => i.variantId && ids.has(i.variantId)).map((i) => i.url);
+    const sorted = [...vs].sort((a, b) => sizeKey(a) - sizeKey(b));
+    return {
+      code: styleCode(vs[0].sku) ? key : null,
+      color: vs[0].color?.name ?? "",
+      images: own.length ? own : productImages,
+      price: Number(vs[0].price),
+      salePrice: vs[0].salePrice ? Number(vs[0].salePrice) : null,
+      sizes: sorted.map((v) => ({ name: v.size?.name ?? "", variantId: v.id, inStock: (v.inStock ?? 0) > 0 })),
+    };
+  }).filter((c) => c.images.length > 0);
 }
 
-function NotFoundBlock({ dictionary, lang }: { dictionary: Dictionary; lang: Locale }) {
+function Accordion({ title, meta, children, open }: { title: string; meta?: ReactNode; children: ReactNode; open?: boolean }) {
   return (
-    <section className="mx-auto max-w-3xl rounded-xl border border-light-300 bg-light-100 p-8 text-center">
-      <h1 className="text-heading-3 text-dark-900">{dictionary.product.productNotFound}</h1>
-      <p className="mt-2 text-body text-dark-700">{dictionary.product.productNotFoundDesc}</p>
-      <div className="mt-6">
-        <Link
-          href={`/${lang}/products`}
-          className="inline-block rounded-full bg-dark-900 px-6 py-3 text-body-medium text-light-100 transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[--color-dark-500]"
-        >
-          {dictionary.product.browseProducts}
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-async function ReviewsSection({ productId, dictionary }: { productId: string; dictionary: Dictionary }) {
-  const reviews: Review[] = await getProductReviews(productId);
-  const count = reviews.length;
-  const avg =
-    count > 0 ? (reviews.reduce((s, r) => s + r.rating, 0) / count) : 0;
-
-  return (
-    <CollapsibleSection
-      title={`${dictionary.product.reviews} (${count})`}
-      rightMeta={
-        <span className="flex items-center gap-1 text-dark-900">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Star key={i} className={`h-4 w-4 ${i <= Math.round(avg) ? "fill-[--color-dark-900]" : ""}`} />
-          ))}
+    <details open={open} className="group border-t border-light-300 last:border-b">
+      <summary className="flex cursor-pointer list-none items-center justify-between py-6 text-xl font-medium [&::-webkit-details-marker]:hidden">
+        {title}
+        <span className="flex items-center gap-3">
+          {meta}
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="group-open:rotate-180">
+            <path d="M18.966 8.476L12 15.443 5.033 8.476" />
+          </svg>
         </span>
-      }
-    >
+      </summary>
+      <div className="pb-8 text-base text-dark-900">{children}</div>
+    </details>
+  );
+}
+
+const Stars = ({ value }: { value: number }) => (
+  <span className="flex" aria-label={`${value.toFixed(1)} of 5`}>
+    {[1, 2, 3, 4, 5].map((i) => (
+      <svg key={i} aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill={i <= Math.round(value) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 3.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 17l-5.4 3 1.2-6-4.5-4.2 6.1-.7z" />
+      </svg>
+    ))}
+  </span>
+);
+
+async function Reviews({ productId, dictionary }: { productId: string; dictionary: Dictionary }) {
+  const reviews = await getProductReviews(productId);
+  const avg = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0;
+  return (
+    <Accordion title={`${dictionary.product.reviews} (${reviews.length})`} meta={reviews.length ? <Stars value={avg} /> : null}>
       {reviews.length === 0 ? (
-        <p>{dictionary.product.noReviews}</p>
+        <p className="text-[#707072]">{dictionary.product.noReviews}</p>
       ) : (
-        <ul className="space-y-4">
-          {reviews.slice(0, 10).map((r) => (
-            <li key={r.id} className="rounded-lg border border-light-300 p-4">
-              <div className="mb-1 flex items-center justify-between">
-                <p className="text-body-medium text-dark-900">{r.author}</p>
-                <span className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className={`h-4 w-4 ${i <= r.rating ? "fill-[--color-dark-900]" : ""}`} />
-                  ))}
-                </span>
-              </div>
-              {r.title && <p className="text-body-medium text-dark-900">{r.title}</p>}
-              {r.content && <p className="mt-1 line-clamp-[8] text-body text-dark-700">{r.content}</p>}
-              <p className="mt-2 text-caption text-dark-700">{new Date(r.createdAt).toLocaleDateString()}</p>
+        <ul className="space-y-6">
+          {reviews.map((r) => (
+            <li key={r.id}>
+              <Stars value={r.rating} />
+              <p className="pt-1 text-sm text-[#707072]">
+                {r.author} · {new Date(r.createdAt).toLocaleDateString()}
+              </p>
+              {r.content && <p className="pt-2">{r.content}</p>}
             </li>
           ))}
         </ul>
       )}
-    </CollapsibleSection>
+    </Accordion>
   );
 }
 
-async function AlsoLikeSection({ productId, dictionary, lang }: { productId: string; dictionary: Dictionary; lang: Locale }) {
-  const recs: RecommendedProduct[] = await getRecommendedProducts(productId);
+async function AlsoLike({ productId, dictionary, lang }: { productId: string; dictionary: Dictionary; lang: Locale }) {
+  const recs = await getRecommendedProducts(productId);
   if (!recs.length) return null;
   return (
-    <section className="mt-16">
-      <h2 className="mb-6 text-heading-3 text-dark-900">{dictionary.product.youMightAlsoLike}</h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="pt-20 pb-16">
+      <h2 className="px-6 pb-4 text-2xl font-medium min-[960px]:px-12">{dictionary.product.youMightAlsoLike}</h2>
+      <div className="flex snap-x gap-3 overflow-x-auto px-6 [scrollbar-width:none] min-[960px]:px-12">
         {recs.map((p) => (
-          <Card
-            key={p.id}
-            title={p.title}
-            imageSrc={p.imageUrl}
-            price={p.price ?? undefined}
-            href={`/${lang}/products/${p.id}`}
-            dictionary={dictionary}
-            lang={lang}
-          />
+          <div key={p.id} className="w-[260px] shrink-0 snap-start min-[960px]:w-[440px] [&>a]:px-0 [&>a]:pb-0">
+            <WallCard href={`/${lang}/products/${p.id}`} title={p.title} subtitle={p.subtitle} imageSrc={p.imageUrl} price={p.price} />
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-export default async function ProductDetailPage({
-  params
-}: {
-  params: Promise<{ id: string; lang: Locale }>
-}) {
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string; lang: Locale }> }) {
   const { id, lang } = await params;
   const dictionary = await getDictionary(lang);
   const data = await getProduct(id);
+  const colorways = data ? toColorways(data) : [];
 
-  if (!data) {
+  if (!data || !colorways.length) {
     return (
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav className="py-4 text-caption text-dark-700">
-          <Link href={`/${lang}`} className="hover:underline">{dictionary.navigation.home}</Link> / <Link href={`/${lang}/products`} className="hover:underline">{dictionary.navigation.products}</Link> /{" "}
-          <span className="text-dark-900">{dictionary.product.productNotFound}</span>
-        </nav>
-        <NotFoundBlock dictionary={dictionary} lang={lang} />
+      <main className="mx-auto max-w-xl px-6 py-24 text-center">
+        <h1 className="text-2xl font-medium">{dictionary.product.productNotFound}</h1>
+        <p className="pt-2 text-[#707072]">{dictionary.product.productNotFoundDesc}</p>
+        <Link href={`/${lang}/products`} className="mt-8 inline-block rounded-full bg-dark-900 px-6 py-3 font-medium text-light-100">
+          {dictionary.product.browseProducts}
+        </Link>
       </main>
     );
   }
 
-  const { product, variants, images } = data;
-
-  const galleryVariants: GalleryVariant[] = variants.map((v) => {
-    const imgs = images
-      .filter((img) => img.variantId === v.id)
-      .map((img) => img.url);
-
-    const fallback = images
-      .filter((img) => img.variantId === null)
-      .sort((a, b) => {
-        if (a.isPrimary && !b.isPrimary) return -1;
-        if (!a.isPrimary && b.isPrimary) return 1;
-        return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
-      })
-      .map((img) => img.url);
-
-    return {
-      color: v.color?.name || dictionary.product.colour,
-      images: imgs.length ? imgs : fallback,
-    };
-  }).filter((gv) => gv.images.length > 0);
-
-  const defaultVariant =
-    variants.find((v) => v.id === product.defaultVariantId) || variants[0];
-
-  const basePrice = defaultVariant ? Number(defaultVariant.price) : null;
-  const salePrice = defaultVariant?.salePrice ? Number(defaultVariant.salePrice) : null;
-
-  const displayPrice = salePrice !== null && !Number.isNaN(salePrice) ? salePrice : basePrice;
-  const compareAt = salePrice !== null && !Number.isNaN(salePrice) ? basePrice : null;
-
-  const discount =
-    compareAt && displayPrice && compareAt > displayPrice
-      ? Math.round(((compareAt - displayPrice) / compareAt) * 100)
-      : null;
-
-  const subtitle =
-    product.gender?.label ? `${product.gender.label} ${dictionary.product.shoes}` : undefined;
+  const { product, variants } = data;
+  const defaultCode = variants.find((v) => v.id === product.defaultVariantId)?.sku;
+  const initial = Math.max(0, colorways.findIndex((c) => c.code && defaultCode && styleCode(defaultCode) === c.code));
+  const subtitle = product.description && product.description.length < 60 ? product.description : product.gender?.label;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <nav className="py-4 text-caption text-dark-700">
-        <Link href={`/${lang}`} className="hover:underline">{dictionary.navigation.home}</Link> / <Link href={`/${lang}/products`} className="hover:underline">{dictionary.navigation.products}</Link> /{" "}
-        <span className="text-dark-900">{product.name}</span>
-      </nav>
-
-      <section className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_480px]">
-        {galleryVariants.length > 0 && (
-          <ProductGallery productId={product.id} variants={galleryVariants} className="lg:sticky lg:top-6" />
-        )}
-
-        <div className="flex flex-col gap-6">
-          <header className="flex flex-col gap-2">
-            <h1 className="text-heading-2 text-dark-900">{product.name}</h1>
-            {subtitle && <p className="text-body text-dark-700">{subtitle}</p>}
-          </header>
-
-          <div className="flex items-center gap-3">
-            <p className="text-lead text-dark-900">{formatPrice(displayPrice)}</p>
-            {compareAt && (
-              <>
-                <span className="text-body text-dark-700 line-through">{formatPrice(compareAt)}</span>
-                {discount !== null && (
-                  <span className="rounded-full border border-light-300 px-2 py-1 text-caption text-[--color-green]">
-                    {discount}% {dictionary.common.off}
-                  </span>
-                )}
-              </>
-            )}
-          </div>
-
-          <ColorSwatches productId={product.id} variants={galleryVariants} />
-          <SizePicker dictionary={dictionary} />
-
-          <div className="flex flex-col gap-3">
-            <button className="flex items-center justify-center gap-2 rounded-full bg-dark-900 px-6 py-4 text-body-medium text-light-100 transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[--color-dark-500]">
-              <ShoppingBag className="h-5 w-5" />
-              {dictionary.product.addToBag}
-            </button>
-            <button className="flex items-center justify-center gap-2 rounded-full border border-light-300 px-6 py-4 text-body-medium text-dark-900 transition hover:border-dark-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-[--color-dark-500]">
-              <Heart className="h-5 w-5" />
-              {dictionary.product.favorite}
-            </button>
-          </div>
-
-          <CollapsibleSection title={dictionary.product.productDetails} defaultOpen>
-            <p>{product.description}</p>
-          </CollapsibleSection>
-
-          <CollapsibleSection title={dictionary.product.shippingReturns}>
-            <p>{dictionary.product.shippingReturnsDesc}</p>
-          </CollapsibleSection>
-
-          <Suspense
-            fallback={
-              <CollapsibleSection title={dictionary.product.reviews}>
-                <p className="text-body text-dark-700">{dictionary.common.loading}</p>
-              </CollapsibleSection>
-            }
-          >
-            <ReviewsSection productId={product.id} dictionary={dictionary} />
-          </Suspense>
-        </div>
-      </section>
-
-      <Suspense
-        fallback={
-          <section className="mt-16">
-            <h2 className="mb-6 text-heading-3 text-dark-900">{dictionary.product.youMightAlsoLike}</h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="h-64 animate-pulse rounded-xl bg-light-200" />
-              ))}
-            </div>
-          </section>
+    <main>
+      <ProductView
+        name={product.name}
+        subtitle={subtitle}
+        badge={product.badge}
+        colorways={colorways}
+        initial={initial}
+        labels={{
+          selectSize: dictionary.product.selectSize,
+          sizeGuide: dictionary.product.sizeGuide,
+          addToBag: dictionary.product.addToBag,
+          added: dictionary.product.added,
+          favorite: dictionary.product.favorite,
+          pleaseSelectSize: dictionary.product.pleaseSelectSize,
+          shown: dictionary.product.shown,
+          style: dictionary.product.style,
+        }}
+        details={
+          <>
+            <Accordion title={dictionary.product.shippingReturns}>
+              <p>{dictionary.product.shippingReturnsDesc}</p>
+            </Accordion>
+            <Suspense fallback={<Accordion title={dictionary.product.reviews}><p>{dictionary.common.loading}</p></Accordion>}>
+              <Reviews productId={product.id} dictionary={dictionary} />
+            </Suspense>
+          </>
         }
-      >
-        <AlsoLikeSection productId={product.id} dictionary={dictionary} lang={lang} />
+      />
+      <Suspense fallback={null}>
+        <AlsoLike productId={product.id} dictionary={dictionary} lang={lang} />
       </Suspense>
     </main>
   );
