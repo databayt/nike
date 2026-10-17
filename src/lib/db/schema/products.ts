@@ -14,6 +14,10 @@ export const products = pgTable('products', {
   brandId: uuid('brand_id').references(() => brands.id, { onDelete: 'set null' }),
   isPublished: boolean('is_published').notNull().default(false),
   defaultVariantId: uuid('default_variant_id'),
+  /** nike's card label — "Just In", "Best Seller", "Coming Soon", … */
+  badge: text('badge'),
+  /** nike style code of the default colorway (e.g. IQ6011-400), for catalog refreshes. */
+  styleCode: text('style_code'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -41,6 +45,8 @@ export const insertProductSchema = z.object({
   brandId: z.string().uuid().optional().nullable(),
   isPublished: z.boolean().optional(),
   defaultVariantId: z.string().uuid().optional().nullable(),
+  badge: z.string().optional().nullable(),
+  styleCode: z.string().optional().nullable(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });

@@ -35,6 +35,11 @@ type ProductListItem = {
   maxPrice: number | null;
   createdAt: Date;
   subtitle?: string | null;
+  /** nike's card label — "Just In", "Best Seller", … */
+  badge?: string | null;
+  /** Lowest price after markdowns; below minPrice only when on sale. */
+  salePrice?: number | null;
+  colorCount?: number;
 };
 
 export type GetAllProductsResult = {
@@ -109,6 +114,7 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
       variantId: productVariants.id,
       productId: productVariants.productId,
       price: sql<number>`${productVariants.price}::numeric`.as("price"),
+      salePrice: sql<number>`coalesce(${productVariants.salePrice}, ${productVariants.price})::numeric`.as("sale_price"),
       colorId: productVariants.colorId,
       sizeId: productVariants.sizeId,
     })
@@ -168,6 +174,11 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
       name: products.name,
       createdAt: products.createdAt,
       subtitle: genders.label,
+      description: products.description,
+      badge: products.badge,
+      styleCode: products.styleCode,
+      salePrice: sql<number | null>`min(${variantJoin.salePrice})`,
+      colorCount: sql<number>`count(distinct ${variantJoin.colorId})`,
       minPrice: priceAgg.minPrice,
       maxPrice: priceAgg.maxPrice,
       imageUrl: imageAgg,
@@ -179,7 +190,7 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
     .leftJoin(brands, eq(brands.id, products.brandId))
     .leftJoin(categories, eq(categories.id, products.categoryId))
     .where(baseWhere)
-    .groupBy(products.id, products.name, products.createdAt, genders.label)
+    .groupBy(products.id, products.name, products.createdAt, genders.label, products.description, products.badge, products.styleCode)
     .orderBy(primaryOrder, desc(products.createdAt), asc(products.id))
     .limit(limit)
     .offset(offset);
@@ -201,7 +212,11 @@ export async function getAllProducts(filters: NormalizedProductFilters): Promise
     minPrice: r.minPrice === null ? null : Number(r.minPrice),
     maxPrice: r.maxPrice === null ? null : Number(r.maxPrice),
     createdAt: r.createdAt,
-    subtitle: r.subtitle ? `${r.subtitle} Shoes` : null,
+    // Snapshot products carry nike's own subtitle ("Men's Shoes"); placeholders fall back to gender.
+    subtitle: r.styleCode ? r.description : r.subtitle ? `${r.subtitle} Shoes` : null,
+    badge: r.badge,
+    salePrice: r.salePrice === null ? null : Number(r.salePrice),
+    colorCount: Number(r.colorCount),
   }));
 
   const totalCount = countRows[0]?.cnt ?? 0;
